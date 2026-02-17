@@ -1,0 +1,55 @@
+export BASH_CONF="bash_profile"
+export CAFFE_ROOT=“/Users/fabioferreira/Downloads/caffe“
+eval "$(rbenv init -)"
+
+# Homebrew
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+##
+# Your previous /Users/fabioferreira/.bash_profile file was backed up as /Users/fabioferreira/.bash_profile.macports-saved_2017-02-09_at_20:20:20
+##
+
+# MacPorts Installer addition on 2017-02-09_at_20:20:20: adding an appropriate PATH variable for use with MacPorts.
+#export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+source ~/.bashrc
+
+# Setting PATH for Python 3.4
+# The orginal version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.4/bin:${PATH}"
+export PATH
+
+# Setting PATH for Python 3.6
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+export PATH
+
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
+
+# added by Anaconda3 5.1.0 installer
+#export PATH="/Users/fabioferreira/anaconda3/bin:$PATH"
+# . ~/anaconda3/etc/profile.d/conda.sh  # commented out by conda initialize
+# conda activate base  # commented out by conda initialize
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/fabioferreira/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/fabioferreira/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/fabioferreira/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/fabioferreira/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+export PATH="$HOME/.poetry/bin:$PATH"

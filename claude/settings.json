@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "Bash",
+      "Glob",
+      "Grep",
+      "Read"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|idle_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); TYPE=$(echo \"$INPUT\" | jq -r '.notification_type // \"unknown\"'); MSG=$(echo \"$INPUT\" | jq -r '.message // \"Needs attention\"'); case $TYPE in permission_prompt) PREFIX=\"PERMISSION\";; idle_prompt) PREFIX=\"INPUT NEEDED\";; elicitation_dialog) PREFIX=\"QUESTION\";; *) PREFIX=\"ACTION\";; esac; curl -s -d \"$PREFIX: $MSG\" ntfy.sh/YOUR_TOPIC_HERE > /dev/null 2>&1; exit 0"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "everything-claude-code@everything-claude-code": false
+  },
+  "skipDangerousModePermissionPrompt": true
+}
