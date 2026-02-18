@@ -69,24 +69,40 @@ usage_5h="" usage_7d=""
 need_refresh=true
 
 if [ -f "$CACHE_FILE" ]; then
-    cache_age=$(( $(date +%s) - $(stat -c %Y "$CACHE_FILE" 2>/dev/null || echo 0) ))
+    if [[ "$(uname)" == "Darwin" ]]; then
+        cache_mtime=$(stat -f %m "$CACHE_FILE" 2>/dev/null || echo 0)
+    else
+        cache_mtime=$(stat -c %Y "$CACHE_FILE" 2>/dev/null || echo 0)
+    fi
+    cache_age=$(( $(date +%s) - cache_mtime ))
     if [ "$cache_age" -lt "$CACHE_TTL" ]; then
         need_refresh=false
     fi
 fi
 
 if $need_refresh; then
-    creds_file="$HOME/.claude/.credentials.json"
-    if [ -f "$creds_file" ]; then
-        token=$(jq -r '.claudeAiOauth.accessToken // empty' "$creds_file" 2>/dev/null)
-        if [ -n "$token" ]; then
-            resp=$(curl -s --max-time 3 \
-                -H "Authorization: Bearer $token" \
-                -H "anthropic-beta: oauth-2025-04-20" \
-                "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
-            if echo "$resp" | jq -e '.five_hour' &>/dev/null; then
-                echo "$resp" > "$CACHE_FILE"
-            fi
+    token=""
+    # macOS: credentials stored in Keychain
+    if [[ "$(uname)" == "Darwin" ]]; then
+        creds_json=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null)
+        if [ -n "$creds_json" ]; then
+            token=$(echo "$creds_json" | jq -r '.claudeAiOauth.accessToken // empty' 2>/dev/null)
+        fi
+    fi
+    # Linux: credentials in flat file
+    if [ -z "$token" ]; then
+        creds_file="$HOME/.claude/.credentials.json"
+        if [ -f "$creds_file" ]; then
+            token=$(jq -r '.claudeAiOauth.accessToken // empty' "$creds_file" 2>/dev/null)
+        fi
+    fi
+    if [ -n "$token" ]; then
+        resp=$(curl -s --max-time 3 \
+            -H "Authorization: Bearer $token" \
+            -H "anthropic-beta: oauth-2025-04-20" \
+            "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
+        if echo "$resp" | jq -e '.five_hour' &>/dev/null; then
+            echo "$resp" > "$CACHE_FILE"
         fi
     fi
 fi
