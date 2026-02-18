@@ -14,6 +14,7 @@ declare -a MAPPING=(
     "git/gitignore_global:$HOME/.config/git/ignore"
     "editor/vimrc:$HOME/.vimrc"
     "claude/settings.json:$HOME/.claude/settings.json"
+    "claude/statusline.sh:$HOME/.claude/statusline.sh"
 )
 
 echo "==> Saving dotfiles to repo..."

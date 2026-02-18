@@ -25,5 +25,9 @@
   "enabledPlugins": {
     "everything-claude-code@everything-claude-code": false
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash $HOME/.claude/statusline.sh"
+  },
   "skipDangerousModePermissionPrompt": true
 }
