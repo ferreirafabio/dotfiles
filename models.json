@@ -28,12 +28,10 @@
   },
   "projects": {
     "streikcheck.de": {
-      "enrich.primary":  "extractor",
-      "enrich.retry":    "extractor_retry",
-      "scan_html":       "judge_cheap",
-      "dedup.judge":     "extractor",
-      "tarif_freshness": "agent_websearch",
-      "source_judge":    "extractor"
+      "default":         "extractor",
+      "retry":           "extractor_retry",
+      "cheap":           "judge_cheap",
+      "agent_websearch": "agent_websearch"
     },
     "scholar-watcher": {
       "default": "extractor"
