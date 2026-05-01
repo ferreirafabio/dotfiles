@@ -1,0 +1,42 @@
+{
+  "$schema": "https://github.com/ferreirafabio/dotfiles/blob/main/models.schema.json",
+  "schema_version": 1,
+  "updated_at": "2026-05-01",
+  "doc": "Central registry of LLM model identifiers used across my projects. Each project pins logical 'roles' (e.g. extractor.primary) to a named alias; aliases resolve to a concrete vendor + model_id. When a vendor deprecates a model, update the alias once here and every project picks up the new model on its next config fetch. Public on purpose: model identifiers are not secrets.",
+  "raw_url": "https://raw.githubusercontent.com/ferreirafabio/dotfiles/main/models.json",
+  "aliases": {
+    "extractor": {
+      "id": "claude-sonnet-4-6",
+      "vendor": "anthropic",
+      "notes": "Default workhorse for structured-output extraction, judging, and most non-trivial reasoning. Pricing tier: medium."
+    },
+    "extractor_retry": {
+      "id": "claude-opus-4-7",
+      "vendor": "anthropic",
+      "notes": "Higher-capability fallback when the primary extractor fails (schema mismatch, refusal, etc.). Pricing tier: highest."
+    },
+    "judge_cheap": {
+      "id": "claude-haiku-4-5-20251001",
+      "vendor": "anthropic",
+      "notes": "High-volume / low-stakes classification (HTML scanning, dedup pre-filter). Pricing tier: lowest."
+    },
+    "agent_websearch": {
+      "id": "claude-sonnet-4-6",
+      "vendor": "anthropic",
+      "notes": "Sonnet via claude-agent-sdk with WebSearch + WebFetch tools enabled."
+    }
+  },
+  "projects": {
+    "streikcheck.de": {
+      "enrich.primary":  "extractor",
+      "enrich.retry":    "extractor_retry",
+      "scan_html":       "judge_cheap",
+      "dedup.judge":     "extractor",
+      "tarif_freshness": "agent_websearch",
+      "source_judge":    "extractor"
+    },
+    "scholar-watcher": {
+      "default": "extractor"
+    }
+  }
+}
