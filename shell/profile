@@ -1,7 +1,7 @@
 # Local secrets and machine-specific overrides (gitignored / not in iCloud backup)
 [ -f ~/.profile.local ] && source ~/.profile.local
 
-source ~/.proxies.sh
+# source ~/.proxies.sh   # not needed at the moment
 export PATH="$HOME/miniconda3/bin/:$PATH"
 #export PYTHONPATH="$HOME/Dropbox/0_projects/2025/MO-LLAMBO:$PYTHONPATH"
 alias pyconda='~/miniconda3/bin/python3'
