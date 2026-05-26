@@ -32,7 +32,7 @@ git add -A && git commit -m "Update dotfiles" && git push
 #### 1. Zip password (macOS Keychain)
 
 ```bash
-security add-generic-password -a "fabioferreira" -s "dotfiles-backup" -w
+security add-generic-password -a "$USER" -s "dotfiles-backup" -w
 # Enter your password when prompted
 ```
 

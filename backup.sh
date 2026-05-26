@@ -41,10 +41,10 @@ for var in DROPBOX_APP_KEY DROPBOX_APP_SECRET DROPBOX_REFRESH_TOKEN; do
     fi
 done
 
-# Retrieve zip password from macOS Keychain
-PASSWORD=$(security find-generic-password -a "fabioferreira" -s "dotfiles-backup" -w 2>/dev/null) || {
+# Retrieve zip password from macOS Keychain (keychain entry is per-user)
+PASSWORD=$(security find-generic-password -a "$USER" -s "dotfiles-backup" -w 2>/dev/null) || {
     log "ERROR: Could not retrieve password from Keychain."
-    log "Run: security add-generic-password -a fabioferreira -s dotfiles-backup -w"
+    log "Run: security add-generic-password -a \"$USER\" -s dotfiles-backup -w"
     exit 1
 }
 

@@ -86,8 +86,8 @@ if [ -f "$DOTFILES/Brewfile" ]; then
     fi
 fi
 
-# ---- Install launchd plist ----
-PLIST_NAME="com.fabioferreira.backup.plist"
+# ---- Install launchd plist (template: __HOME__ is substituted at install time) ----
+PLIST_NAME="com.dotfiles.backup.plist"
 PLIST_SRC="$DOTFILES/$PLIST_NAME"
 PLIST_DST="$HOME/Library/LaunchAgents/$PLIST_NAME"
 
@@ -96,12 +96,15 @@ if [ -f "$PLIST_SRC" ]; then
     echo "==> Installing launchd agent..."
     mkdir -p "$HOME/Library/LaunchAgents"
 
-    # Unload existing if loaded
+    # Unload existing if loaded (under either old or new name, for upgrades from previous installs)
     launchctl bootout "gui/$(id -u)/$PLIST_NAME" 2>/dev/null || true
+    launchctl bootout "gui/$(id -u)/com.fabioferreira.backup.plist" 2>/dev/null || true
+    rm -f "$HOME/Library/LaunchAgents/com.fabioferreira.backup.plist"
 
-    cp "$PLIST_SRC" "$PLIST_DST"
+    # Substitute __HOME__ placeholder with the actual home directory of the current user.
+    sed "s|__HOME__|$HOME|g" "$PLIST_SRC" > "$PLIST_DST"
     launchctl load "$PLIST_DST"
-    echo "  Loaded: $PLIST_NAME"
+    echo "  Loaded: $PLIST_NAME (paths bound to $HOME)"
 fi
 
 # ---- Create .profile.local stub if absent (gitignored, holds machine-local secrets) ----

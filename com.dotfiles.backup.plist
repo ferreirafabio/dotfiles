@@ -4,12 +4,12 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.fabioferreira.backup</string>
+    <string>com.dotfiles.backup</string>
 
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/fabioferreira/dotfiles/backup.sh</string>
+        <string>__HOME__/dotfiles/backup.sh</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -25,14 +25,14 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>HOME</key>
-        <string>/Users/fabioferreira</string>
+        <string>__HOME__</string>
         <key>PATH</key>
         <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/fabioferreira/Dropbox/7_Backups/backup_stdout.log</string>
+    <string>__HOME__/Dropbox/7_Backups/backup_stdout.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/fabioferreira/Dropbox/7_Backups/backup_stderr.log</string>
+    <string>__HOME__/Dropbox/7_Backups/backup_stderr.log</string>
 </dict>
 </plist>
