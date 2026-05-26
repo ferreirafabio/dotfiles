@@ -1,0 +1,94 @@
+# Local secrets and machine-specific overrides (gitignored / not in iCloud backup)
+[ -f ~/.profile.local ] && source ~/.profile.local
+
+source ~/.proxies.sh
+export PATH="$HOME/miniconda3/bin/:$PATH"
+#export PYTHONPATH="$HOME/Dropbox/0_projects/2025/MO-LLAMBO:$PYTHONPATH"
+alias pyconda='~/miniconda3/bin/python3'
+alias python=python3
+# --- CLAUDE CODE ---
+alias cc="IS_SANDBOX=1 claude --dangerously-skip-permissions"
+
+# --- Uni Freiburg ---
+alias aad='ssh -i $HOME/.ssh/aad ferreira@aadlogin.informatik.uni-freiburg.de'
+alias mlstaff10='ssh ferreira@mlstaff10.informatik.privat'
+
+alias nemo1="ssh fr_ff1042@login1.nemo.uni-freiburg.de"
+alias nemo2="ssh fr_ff1042@login2.nemo.uni-freiburg.de"
+
+alias juwels="ssh -i $HOME/.ssh/juwels ferreira3@juwels-booster.fz-juelich.de"
+
+#alias kis3bat1ssh="ssh ferreira@kis3bat1.rz.ki.privat"
+#alias kis3bat2ssh="ssh ferreira@kis3bat2.rz.ki.privat"
+#alias kis3bat3ssh="ssh ferreira@kis3bat3.rz.ki.privat"
+
+alias kis3bat1ssh="ssh kis3bat1.rz.ki.privat" # proxyjump via aadlogin defined in ~/.ssh/config
+alias kis3bat2ssh="ssh kis3bat2.rz.ki.privat"
+alias kis3bat3ssh="ssh kis3bat3.rz.ki.privat"
+alias horeka="ssh horeka" # proxyjump
+alias myperfumeai="ssh -i ~/.ssh/perfumefinder-prod perfumefinder@100.107.224.124" # myperfumeai.com
+alias ati="ssh -vi ~/.ssh/aretheyinvolved ati@ubuntu-8gb-nbg1-3.taile8e817.ts.net" # aretheyinvolved.com
+
+dlcgpu() {
+    local node=$(ssh kis3bat1.rz.ki.privat "squeue -u ferreira -o '%N' -h 2>/dev/null | head -1")
+    if [ -z "$node" ]; then
+        echo "No running jobs found"
+        return 1
+    fi
+    echo "Connecting to $node with port forwarding..."
+    ssh "$node"
+}
+
+alias helix="ssh -i ~/.ssh/id_rsa_helix_feb24 -v fr_ff1042@helix.bwservices.uni-heidelberg.de"
+alias bwuni="ssh fr_ff1042@uc2.scc.kit.edu"
+alias sumuc="ssh -i $HOME/.ssh/aad -t ferreira@aadlogin.informatik.uni-freiburg.de ssh -Y di35map@pvc.supermuc.lrz.de"
+#alias horeka="ssh -i ~/.ssh/helix fr_ff1042@horeka.scc.kit.edu"
+
+
+# --- change directory ---
+alias cdgit='cd /Volumes/fabioexternal/Dropbox/4_Studium/Master/git_projects'
+alias cdproj20="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2020"
+alias cdproj21="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2021"
+alias cdse="cd '$HOME/Library/CloudStorage/Dropbox/0_projects/2020/2_Thomas Nierhoff MA/learning_environments'"
+alias cdgtn="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2022/gtn_with_higher"
+alias cdboho="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2021/boho/boho"
+alias cdmetassl="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2021/metassl"
+alias cddino="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2022/metassl-dino"
+alias cddinorpn="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2022/metassl-dino-rpn"
+alias cdaft="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2022/AutoFineTune/AutoFineTune"
+alias cddinov2="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2023/dinov2"
+alias cdpfn="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2023/pfn_real_tabular_data"
+alias cdminsim="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2023/MinSimAugment"
+alias cdjt="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2024/judgetuning"
+alias cdmo="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2025/MO-LLAMBO"
+alias cdcde="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2026/Conditional_Density_Estimation"
+alias cdpf="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2026/perfumefinder.ai"
+alias cdati="cd $HOME/Library/CloudStorage/Dropbox/0_projects/2026/aretheyinvolved"
+
+
+# --- Conda & venv ---
+alias cde="conda activate cde-pytorch"
+alias pf="source ~/.venvs/perfumefinder/bin/activate"
+
+# --- LLMS ---
+
+# --- Other ---
+alias wakefabio-nas='wakeonlan -i 192.168.178.255 d0:bf:9c:46:5b:c4'
+# E2B_API_KEY lives in ~/.profile.local (sourced at top of this file)
+
+
+# --- VPN ---
+# Lazy-load encpass for faster shell startup (password only decrypted when needed)
+get_vpn_password() {
+    . ~/.encpass.sh
+    get_secret
+}
+# password variable available via: password=$(get_vpn_password)
+
+alias vpnc="scutil --nc start 'VPN Uni Freiburg'"
+alias vpnd="scutil --nc stop 'VPN Uni Freiburg'"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+#export PATH="/usr/local/bin/cmake:$PATH"
+export PATH="/Applications/CMake.app/Contents/bin:$PATH"

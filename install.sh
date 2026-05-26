@@ -11,6 +11,7 @@ declare -a MAPPING=(
     "shell/p10k.zsh:$HOME/.p10k.zsh"
     "shell/bash_profile:$HOME/.bash_profile"
     "shell/bashrc:$HOME/.bashrc"
+    "shell/profile:$HOME/.profile"
     "git/gitconfig:$HOME/.gitconfig"
     "git/gitignore_global:$HOME/.config/git/ignore"
     "editor/vimrc:$HOME/.vimrc"
@@ -101,6 +102,20 @@ if [ -f "$PLIST_SRC" ]; then
     cp "$PLIST_SRC" "$PLIST_DST"
     launchctl load "$PLIST_DST"
     echo "  Loaded: $PLIST_NAME"
+fi
+
+# ---- Create .profile.local stub if absent (gitignored, holds machine-local secrets) ----
+if [ ! -f "$HOME/.profile.local" ]; then
+    echo ""
+    echo "==> Creating ~/.profile.local stub (for E2B_API_KEY and other per-machine secrets)..."
+    cat > "$HOME/.profile.local" <<'EOF'
+# Machine-local secrets and overrides. NOT in git, NOT in iCloud backup.
+# Sourced by ~/.profile.
+#
+# export E2B_API_KEY=...
+EOF
+    chmod 600 "$HOME/.profile.local"
+    echo "  Created (chmod 600). Edit it to add your secrets."
 fi
 
 echo ""
